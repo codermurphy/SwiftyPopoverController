@@ -17,6 +17,9 @@ struct MPPopoverConfig {
     /// 箭头底边宽度
     static var arrowBase: CGFloat = 18
     
+    /// 是否展示箭头
+    var showArrow: Bool = true
+    
     /// 内容size
     var contentSize: CGSize = CGSize(width: 118, height: 100)
     
@@ -67,4 +70,13 @@ struct MPPopoverConfig {
     
     /// 图标和文本的间距
     var iconAndTextMargin: CGFloat = 10
+    
+    /// 是否展示边框
+    var showBorder: Bool = false
+    
+    /// 边框宽度
+    var borderWidth: CGFloat = 1
+    
+    /// 边框颜色
+    var borderColor: UIColor = .lightGray
 }

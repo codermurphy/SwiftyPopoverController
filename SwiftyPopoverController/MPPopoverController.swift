@@ -24,7 +24,12 @@ class MPPopoverController: UIViewController {
         self.modalPresentationStyle = .popover
         self.popoverPresentationController?.delegate = self
         self.preferredContentSize = config.contentSize
-        self.automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            
+        }
+        else {
+           self.automaticallyAdjustsScrollViewInsets = false
+        }
         self.resetContentSize()
     }
     
@@ -86,6 +91,10 @@ class MPPopoverController: UIViewController {
         self.view.backgroundColor = self.config.backgroundColor
         self.view.layer.cornerRadius = self.config.cornorRadius
         self.view.clipsToBounds = true
+        if self.config.showBorder {
+            self.view.layer.borderColor = self.config.borderColor.cgColor
+            self.view.layer.borderWidth = self.config.borderWidth
+        }
         self.layout()
 
     }
@@ -136,6 +145,7 @@ class MPPopoverController: UIViewController {
         let arrowOffset = popoverView.arrowOffset
         let arrowDirection = popoverView.arrowDirection
         animationView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        popoverView.arrowView.isHidden = !self.config.showArrow
         switch arrowDirection {
         case .up:
             let anchorPointX = ((popoverView.frame.size.width / 2) + arrowOffset) / popoverView.frame.size.width;
