@@ -17,6 +17,8 @@ struct MPPopoverConfig {
     /// 箭头底边宽度
     static var arrowBase: CGFloat = 18
     
+    var offset: CGPoint = .zero
+    
     /// 是否展示箭头
     var showArrow: Bool = true
     

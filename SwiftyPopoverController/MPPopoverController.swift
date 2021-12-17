@@ -50,8 +50,8 @@ class MPPopoverController: UIViewController {
         
         let popover = MPPopoverController(config: config,style: style)
         popover.popoverPresentationController?.sourceView = sourceView
-        popover.popoverPresentationController?.sourceRect = sourceView.bounds
-        if let directions = arrowDirection {
+        //popover.popoverPresentationController?.sourceRect = sourceView.bounds
+        popover.popoverPresentationController?.sourceRect = CGRect(x: config.offset.x, y: config.offset.y, width: sourceView.bounds.width, height: sourceView.bounds.height)        if let directions = arrowDirection {
             popover.popoverPresentationController?.permittedArrowDirections = directions
 
         }
@@ -126,9 +126,13 @@ class MPPopoverController: UIViewController {
                 
                 /// 屏蔽自带的圆角
                 rootSupview.layer.cornerRadius = 0
-                rootSupview.clipsToBounds = true
-                
-                self.popoverBackgroundView = popoverView
+                rootSupview.clipsToBounds = false
+                if self.config.showShadow {
+                    presentedView.layer.shadowColor = self.config.shadowColor.cgColor
+                    presentedView.layer.shadowOffset = self.config.shadowOffset
+                    presentedView.layer.shadowRadius = self.config.shadowRadius
+                    presentedView.layer.shadowOpacity = self.config.shadowOpacity
+                }
                 
                 /// 屏蔽自带的阴影
                 guard let _shadowView = rootSupview.superview?.superview?.subviews.first(where: {$0.classForCoder.description() == "_UICutoutShadowView" }) else { return }
