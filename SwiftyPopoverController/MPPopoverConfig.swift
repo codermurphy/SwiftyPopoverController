@@ -41,7 +41,7 @@ struct MPPopoverConfig {
     var shadowColor: UIColor = .white
     var shadowOffset: CGSize = CGSize(width: 0, height: 3)
     var shadowRadius: CGFloat = 5
-    var shadowOpacity: CGFloat = 0.0
+    var shadowOpacity: Float = 0.0
     
     /// 内容颜色
     var textColor: UIColor = .white
