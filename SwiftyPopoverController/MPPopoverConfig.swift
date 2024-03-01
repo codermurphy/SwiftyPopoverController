@@ -16,6 +16,9 @@ struct MPPopoverConfig {
     
     /// 箭头底边宽度
     static var arrowBase: CGFloat = 18
+
+    /// 箭头颜色
+    static var arrowColor: UIColor = .white
     
     var offset: CGPoint = .zero
     
