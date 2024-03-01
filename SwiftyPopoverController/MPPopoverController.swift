@@ -66,6 +66,8 @@ class MPPopoverController: UIViewController {
     
     private let style: PopoverStyle
     
+    private var isLayout = false
+    
     var didSelecteCallback: ((Int,MPPopoverController)->Void)?
     
     private var menu: [(icon: UIImage?,title: String?)] {
@@ -96,8 +98,6 @@ class MPPopoverController: UIViewController {
             self.view.layer.borderColor = self.config.borderColor.cgColor
             self.view.layer.borderWidth = self.config.borderWidth
         }
-        self.layout()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +121,7 @@ class MPPopoverController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        layout()
         if self.popoverBackgroundView == nil {
             if let rootSupview = self.view.superview,let presentedView = self.popoverPresentationController?.presentedView {
                 guard let popoverView = presentedView.subviews.first(where: { return $0.classForCoder == MPPopoverBackgroundView.self }) as? MPPopoverBackgroundView else { return }
@@ -208,16 +209,27 @@ class MPPopoverController: UIViewController {
     // MARK: - layout
     
     private func layout() {
+        guard !isLayout else { return }
+        isLayout = true
         switch self.style {
         case let .message(message):
             self.messageLabel.text = message
-            self.view.addSubview(self.messageLabel)
+            
+            let scrollView = UIScrollView()
+            scrollView.frame = self.view.bounds
+            scrollView.showsVerticalScrollIndicator = false
+            scrollView.showsHorizontalScrollIndicator = false
+            self.view.addSubview(scrollView)
+            
+            scrollView.addSubview(self.messageLabel)
             
             let size = self.messageLabel.sizeThatFits(CGSize(width: self.config.contentSize.width - self.config.contentEdgeInsets.left -  self.config.contentEdgeInsets.right, height: CGFloat.greatestFiniteMagnitude))
+            
             self.messageLabel.x = self.config.contentEdgeInsets.left
             self.messageLabel.y = self.config.contentEdgeInsets.top
-            self.messageLabel.width = self.config.contentSize.width - self.config.contentEdgeInsets.left -  self.config.contentEdgeInsets.right
-            self.messageLabel.height = size.height
+            self.messageLabel.frame.size.width = self.config.contentSize.width - self.config.contentEdgeInsets.left -  self.config.contentEdgeInsets.right
+            self.messageLabel.frame.size.height = size.height
+            scrollView.contentSize = CGSize(width: self.view.bounds.width, height: size.height + self.config.contentEdgeInsets.top + self.config.contentEdgeInsets.bottom)
         case .menu:
             self.view.addSubview(self.contentView)
         }
@@ -234,6 +246,10 @@ class MPPopoverController: UIViewController {
         default:
             break
         }
+    }
+    
+    deinit {
+        debugPrint(Self.self)
     }
     
 }
