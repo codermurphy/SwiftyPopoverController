@@ -51,7 +51,8 @@ class MPPopoverController: UIViewController {
         let popover = MPPopoverController(config: config,style: style)
         popover.popoverPresentationController?.sourceView = sourceView
         //popover.popoverPresentationController?.sourceRect = sourceView.bounds
-        popover.popoverPresentationController?.sourceRect = CGRect(x: config.offset.x, y: config.offset.y, width: sourceView.bounds.width, height: sourceView.bounds.height)        if let directions = arrowDirection {
+        popover.popoverPresentationController?.sourceRect = CGRect(x: config.offset.x, y: config.offset.y, width: sourceView.bounds.width, height: sourceView.bounds.height)        
+        if let directions = arrowDirection {
             popover.popoverPresentationController?.permittedArrowDirections = directions
 
         }
